@@ -23,14 +23,25 @@ export default (router, db) => {
   ];
 
   apiListMethod(router, db, 'tanks', {
-    props: propsTank,
-    callbackList: tank => {
-      return {
-        id: tank._id,
-        name: tank.props.name,
-        volume: tank.props.volume
-      };
-    }
+    props: propsTank
+  });
+
+  // water test methods
+  const propsWater = [
+    { name: 'tankId', type: 'string' },
+    { name: 'date', type: 'date' },
+    { name: 'ph', type: 'float', min: 0, max: 14 },
+    { name: 'nh3', type: 'float', min: 0, max: 1000000 },
+    { name: 'no2', type: 'float', min: 0, max: 1000000 },
+    { name: 'no3', type: 'float', min: 0, max: 1000000 },
+    { name: 'kh', type: 'float', min: 0, max: Infinity },
+    { name: 'gh', type: 'float', min: 0, max: Infinity },
+    { name: 'notes', type: 'string' }
+  ];
+
+  apiListMethod(router, db, 'water', {
+    props: propsWater,
+    listParams: ['tankId']
   });
 };
 

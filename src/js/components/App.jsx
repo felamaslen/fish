@@ -58,6 +58,7 @@ export default class App extends Component {
         <Header />
         <Content dispatcher={this.state.dispatcher}
           tanks={this.state.reduction.getIn(['appState', 'tanks'])}
+          water={this.state.reduction.getIn(['appState', 'water'])}
         />
       </div>
     );
