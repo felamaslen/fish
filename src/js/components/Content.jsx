@@ -17,7 +17,8 @@ export class Content extends PureControllerView {
           <Col>
             <Tanks dispatcher={this.props.dispatcher}
               tanks={this.props.tanks.get('list')}
-              activeTank={this.props.tanks.get('active')} />
+              activeTank={this.props.tanks.get('active')}
+              editing={this.props.tanks.get('editing')} />
           </Col>
         </Row>
       </Container>

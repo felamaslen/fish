@@ -199,14 +199,10 @@ export default (router, db, table, options) => {
 
         db.collection(table).update({ _id }, {
           $set: { props: newProps }
-        }, (updateErr, result) => {
+        }, updateErr => {
           if (updateErr) {
             error = true;
             errorText = err.errmsg;
-          }
-          else if (result.result && !result.result.nModified) {
-            error = true;
-            errorText = `Item ${_id} unchanged or nonexistent`;
           }
 
           res.json({ error, errorText });

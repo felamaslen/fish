@@ -4,11 +4,21 @@
  */
 
 import {
-  TANKS_REQUESTED, TANKS_RECEIVED
+  TANKS_REQUESTED, TANKS_RECEIVED,
+
+  TANK_EDIT_MODAL_OPENED, TANK_EDIT_MODAL_EDITED,
+  TANK_EDIT_MODAL_REMOVED,
+
+  TANK_EDIT_REQUESTED,
+  TANK_RECEIVED,
+  TANK_DELETE_REQUESTED, TANK_DELETE_RECEIVED
 } from '../constants/actions';
 
 import {
-  rRequestTanks, rReceiveTanks
+  rRequestTanks, rReceiveTanks,
+  rTankEditModalOpen, rTankEditModalEdit, rTankEditModalRemove,
+  rRequestEditTank, rReceiveTank,
+  rRequestDeleteTank, rReceiveDeleteTank
 } from './TanksReducer';
 
 export default (reduction, action) => {
@@ -17,6 +27,22 @@ export default (reduction, action) => {
     return rRequestTanks(reduction);
   case TANKS_RECEIVED:
     return rReceiveTanks(reduction, action.payload);
+
+  case TANK_EDIT_MODAL_OPENED:
+    return rTankEditModalOpen(reduction, action.payload);
+  case TANK_EDIT_MODAL_EDITED:
+    return rTankEditModalEdit(reduction, action.payload);
+  case TANK_EDIT_MODAL_REMOVED:
+    return rTankEditModalRemove(reduction);
+
+  case TANK_EDIT_REQUESTED:
+    return rRequestEditTank(reduction);
+  case TANK_RECEIVED:
+    return rReceiveTank(reduction, action.payload);
+  case TANK_DELETE_REQUESTED:
+    return rRequestDeleteTank(reduction, action.payload);
+  case TANK_DELETE_RECEIVED:
+    return rReceiveDeleteTank(reduction, action.payload);
 
   default:
     // By default, the reduction is simply returned unchanged.

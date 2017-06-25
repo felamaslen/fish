@@ -10,7 +10,7 @@ import { APP_TITLE } from '../config';
 export class Header extends PureControllerView {
   render() {
     return (
-      <Navbar inverse>
+      <Navbar color='faded' light>
         <NavbarBrand href='.'>{APP_TITLE}</NavbarBrand>
       </Navbar>
     );

@@ -9,7 +9,8 @@ export default new Record({
   appState: fromJS({
     tanks: {
       list: [],
-      active: -1
+      active: -1,
+      editing: {}
     }
   }),
   // side effects
