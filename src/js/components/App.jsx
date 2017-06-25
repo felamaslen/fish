@@ -3,7 +3,7 @@
  * and renders other components
  */
 
-import { List } from 'immutable';
+import { List as list } from 'immutable';
 import React, { Component } from 'react';
 import { Dispatcher } from 'flux';
 
@@ -18,7 +18,7 @@ import Reduction from '../reduction';
 
 // import sub-components
 import { Header } from './Header';
-import { Tanks } from './Tanks';
+import { Content } from './Content';
 
 export default class App extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ export default class App extends Component {
       const actionLog = this.state.actionLog.push(action);
 
       // purge side effects
-      reduction = reduction.set('effects', List.of());
+      reduction = reduction.set('effects', list.of());
       // execute reducers
       reduction = globalReducer(reduction, action);
       reduction.get('effects').forEach(effectHandler.bind(null, dispatcher));
@@ -48,18 +48,17 @@ export default class App extends Component {
     this.state = {
       dispatcher,
       reduction: new Reduction(),
-      actionLog: List.of() // for debugging
+      actionLog: list.of() // for debugging
     };
   }
 
   render() {
     return (
-      <div id='main'>
+      <div>
         <Header />
-        <div id='content'>
-          <Tanks dispatcher={this.state.dispatcher}
-            tanks={this.state.reduction.getIn(['appState', 'tanks'])} />
-        </div>
+        <Content dispatcher={this.state.dispatcher}
+          tanks={this.state.reduction.getIn(['appState', 'tanks'])}
+        />
       </div>
     );
   }

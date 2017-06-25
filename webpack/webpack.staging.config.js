@@ -16,8 +16,8 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin()
   ],
   output: {
-    path: path.join(__dirname, '../src/html'),
-    filename: 'App.wpbundle.js'
+    path: path.join(__dirname, '../src/html/js'),
+    filename: 'main.js'
   },
   module: moduleConfig,
   resolve: {

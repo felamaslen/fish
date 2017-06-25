@@ -1,6 +1,6 @@
 node_modules
 npm-debug.log
-src/html/css/*.css
-src/html/*.js
-src/html/*.js.map
+src/html/css/style.css
+src/html/js/main.js
+src/html/js/main.js.map
 local.js

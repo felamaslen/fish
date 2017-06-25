@@ -38,10 +38,14 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-pure-render": "^1.0.2",
+    "react-transition-group": "^1.2.0",
+    "reactstrap": "^4.6.2",
     "shallow-equal": "^1.0.0",
     "webpack": "^2.3.1"
   },
   "devDependencies": {
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
     "http-proxy-middleware": "^0.17.4",
     "webpack-dev-server": "^2.4.2"
   }

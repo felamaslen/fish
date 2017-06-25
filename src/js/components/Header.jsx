@@ -4,14 +4,15 @@
 
 import React from 'react';
 import PureControllerView from './PureControllerView';
+import { Navbar, NavbarBrand } from 'reactstrap';
 import { APP_TITLE } from '../config';
 
 export class Header extends PureControllerView {
   render() {
     return (
-      <div id="header">
-        <h1>{APP_TITLE}</h1>
-      </div>
+      <Navbar inverse>
+        <NavbarBrand href='.'>{APP_TITLE}</NavbarBrand>
+      </Navbar>
     );
   }
 }

@@ -6,6 +6,10 @@ import { List as list } from 'immutable';
 import React from 'react';
 import PropTypes from 'prop-types';
 import PureControllerView from './PureControllerView';
+import {
+  ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText,
+  ButtonGroup, Button
+} from 'reactstrap';
 import { aTanksRequested } from '../actions/TanksActions';
 
 export class Tanks extends PureControllerView {
@@ -15,29 +19,33 @@ export class Tanks extends PureControllerView {
   render() {
     return (
       <div className='tanks'>
-        <ul>
+        <h4>Tanks</h4>
+        <ListGroup>
         {this.props.tanks.map((tank, key) => {
           return (
-            <li key={key}>
-              <h4>{tank.get('name')}</h4>
-              <div className='properties'>
-                <ul>
-                  <li>
-                    <span>Volume:</span>
-                    <span>{tank.get('volume')}</span>
-                  </li>
-                </ul>
-              </div>
-            </li>
+            <ListGroupItem key={key} active={this.props.activeTank === key}>
+              <ListGroupItemHeading>
+                <span>{tank.get('name')} </span>
+                <ButtonGroup>
+                  <Button color='info'>Edit</Button>
+                  <Button color='danger'>Delete</Button>
+                </ButtonGroup>
+              </ListGroupItemHeading>
+              <ListGroupItemText>
+                <span>Volume:</span>
+                <span>{tank.get('volume')}</span>
+              </ListGroupItemText>
+            </ListGroupItem>
           );
         })}
-        </ul>
+        </ListGroup>
       </div>
     );
   }
 }
 
 Tanks.propTypes = {
-  tanks: PropTypes.instanceOf(list)
+  tanks: PropTypes.instanceOf(list),
+  activeTank: PropTypes.number
 };
 

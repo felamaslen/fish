@@ -7,7 +7,10 @@ import {
 // and returned (modified) by reducers
 export default new Record({
   appState: fromJS({
-    tanks: []
+    tanks: {
+      list: [],
+      active: -1
+    }
   }),
   // side effects
   effects: list.of()

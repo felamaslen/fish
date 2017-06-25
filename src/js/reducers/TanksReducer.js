@@ -15,6 +15,8 @@ export const rReceiveTanks = (reduction, response) => {
   if (response.error) {
     return reduction;
   }
-  return reduction.setIn(['appState', 'tanks'], fromJS(response.data.tanks));
+  return reduction
+  .setIn(['appState', 'tanks', 'list'], fromJS(response.data.tanks))
+  .setIn(['appState', 'tanks', 'active'], -1);
 };
 

@@ -4,6 +4,8 @@ import gulp from 'gulp';
 import eslint from 'gulp-eslint';
 import env from 'gulp-env';
 import less from 'gulp-less';
+import concat from 'gulp-concat';
+import gulpif from 'gulp-if';
 import gutil from 'gutil';
 import path from 'path';
 import morgan from 'morgan';
@@ -29,13 +31,13 @@ gulp.task('lint', () => {
 
 // LESS stylesheet preprocessor
 gulp.task('less', () => {
-  const filterOptions = '**/*.css';
   const lessOptions = {
     paths: [path.join(__dirname, 'src', 'less')]
   };
 
-  return gulp.src('src/less/**/*.less')
-  .pipe(less(lessOptions))
+  return gulp.src(['src/css/**/*.css', 'src/less/**/*.less'])
+  .pipe(gulpif(/\.less$/, less(lessOptions)))
+  .pipe(concat('style.css'))
   .pipe(gulp.dest('src/html/css'))
 });
 

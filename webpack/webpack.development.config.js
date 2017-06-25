@@ -11,7 +11,7 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'App.wpbundle.js'
+    filename: 'js/main.js'
   },
   resolve: {
     extensions: ['.js', '.jsx']
