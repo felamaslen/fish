@@ -36,7 +36,7 @@ export default (router, db) => {
     { name: 'no3', type: 'float', min: 0, max: 1000000 },
     { name: 'kh', type: 'float', min: 0, max: Infinity },
     { name: 'gh', type: 'float', min: 0, max: Infinity },
-    { name: 'notes', type: 'string' }
+    { name: 'notes', type: 'string', optional: true }
   ];
 
   apiListMethod(router, db, 'water', {

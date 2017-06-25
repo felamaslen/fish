@@ -9,7 +9,7 @@ const validateItem = (value, item) => {
   case 'date':
     return value.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/);
   case 'string':
-    return value.toString().length > 0;
+    return item.optional || value.toString().length > 0;
   case 'float':
     const floatValue = parseFloat(value, 10);
     return !isNaN(floatValue) && floatValue >= item.min && floatValue <= item.max;
