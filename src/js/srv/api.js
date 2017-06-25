@@ -2,9 +2,7 @@
  * Define routes for the api
  */
 
-const setupDatabase = db => {
-  db.collection('tanks').createIndex({ id: 1 }, { unique: true });
-};
+import { ObjectId } from 'mongodb';
 
 const validateItem = (value, type) => {
   if (type === 'string') {
@@ -78,18 +76,19 @@ const apiListMethod = (router, db, table, options) => {
     }
 
     if (!error) {
-      const id = options.getId(req.body);
       const props = getProps(options.props, req.body);
 
-      db.collection(table).insert({ id, props }, (err, result) => {
+      db.collection(table).insert({ props }, (err, result) => {
         const data = {};
 
         if (err) {
           error = true;
           errorText = err.errmsg;
+          res.json({ error, errorText });
+          return;
         }
 
-        data.id = id;
+        data.id = result.insertedIds[0];
 
         res.json({ error, errorText, data });
       });
@@ -109,16 +108,25 @@ const apiListMethod = (router, db, table, options) => {
     }
 
     if (!error) {
-      const id = req.body.id;
+      let _id;
+      try {
+        _id = ObjectId(req.body.id);
+      }
+      catch (err) {
+        error = true;
+        errorText = 'Invalid id given';
+        res.json({ error, errorText });
+        return;
+      }
 
-      db.collection(table).deleteOne({ id }, (err, result) => {
+      db.collection(table).deleteOne({ _id }, (err, result) => {
         if (err) {
           error = true;
           errorText = err.errmsg;
         }
         else if (result && !result.deletedCount) {
           error = true;
-          errorText = `Item ${id} does not exist in ${table}`;
+          errorText = `Item ${_id} does not exist in ${table}`;
         }
 
         res.json({ error, errorText });
@@ -155,13 +163,29 @@ const apiListMethod = (router, db, table, options) => {
     }
 
     if (!error) {
-      const id = req.body.id;
+      let _id;
+      try {
+        _id = ObjectId(req.body.id);
+      }
+      catch (err) {
+        error = true;
+        errorText = 'Invalid id given';
+        res.json({ error, errorText });
+        return;
+      }
+
       const newProps = getProps(options.props, req.body);
 
-      db.collection(table).find({ id }).toArray((err, results) => {
+      db.collection(table).find({ _id }).toArray((err, results) => {
         if (err) {
           error = true;
           errorText = err.errmsg;
+        }
+        else if (!results.length) {
+          error = true;
+          errorText = `Item ${_id} does not exist in ${table}`;
+        }
+        if (error) {
           res.json({ error, errorText });
           return;
         }
@@ -173,7 +197,7 @@ const apiListMethod = (router, db, table, options) => {
           }
         }
 
-        db.collection(table).update({ id }, {
+        db.collection(table).update({ _id }, {
           $set: { props: newProps }
         }, (err, result) => {
           if (err) {
@@ -182,7 +206,7 @@ const apiListMethod = (router, db, table, options) => {
           }
           else if (result.result && !result.result.nModified) {
             error = true;
-            errorText = `Item ${id} unchanged or nonexistent`;
+            errorText = `Item ${_id} unchanged or nonexistent`;
           }
 
           res.json({ error, errorText });
@@ -196,8 +220,6 @@ const apiListMethod = (router, db, table, options) => {
 };
 
 export default (router, db) => {
-  setupDatabase(db);
-
   router.get('/', (req, res) => {
     res.json({ error: true, errorText: 'Must supply an API method!' });
   });
@@ -210,10 +232,9 @@ export default (router, db) => {
 
   apiListMethod(router, db, 'tanks', {
     props: propsTank,
-    getId: body => body.name.toLowerCase().replace(/\s+/, '-'),
     callbackList: tank => {
       return {
-        id: tank.id,
+        id: tank._id,
         name: tank.props.name,
         volume: tank.props.volume
       };
