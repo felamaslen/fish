@@ -4,33 +4,23 @@
  */
 
 import {
-  FORM_NEXT_CLICKED,
-  FORM_RESPONSE_GOT,
-  FORM_INPUT_CHANGED,
-  FORM_RESET_CLICKED
+  TANKS_REQUESTED, TANKS_RECEIVED
 } from '../constants/actions';
 
 import {
-  formNextStep,
-  formHandleResponse,
-  formUpdateValues,
-  formReset
-} from './FormReducer';
+  rRequestTanks, rReceiveTanks
+} from './TanksReducer';
 
 export default (reduction, action) => {
   switch (action.type) {
-  case FORM_NEXT_CLICKED:
-    return formNextStep(reduction, action.payload);
-  case FORM_RESPONSE_GOT:
-    return formHandleResponse(reduction, action.payload);
-  case FORM_INPUT_CHANGED:
-    return formUpdateValues(reduction, action.payload);
-  case FORM_RESET_CLICKED:
-    return formReset(reduction);
+  case TANKS_REQUESTED:
+    return rRequestTanks(reduction);
+  case TANKS_RECEIVED:
+    return rReceiveTanks(reduction, action.payload);
 
   default:
     // By default, the reduction is simply returned unchanged.
     return reduction;
   }
-}
+};
 

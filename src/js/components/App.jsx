@@ -17,7 +17,8 @@ import effectHandler from '../effects-handlers/EffectHandler';
 import Reduction from '../reduction';
 
 // import sub-components
-import { Header } from './Header.jsx';
+import { Header } from './Header';
+import { Tanks } from './Tanks';
 
 export default class App extends Component {
   constructor(props) {
@@ -53,8 +54,12 @@ export default class App extends Component {
 
   render() {
     return (
-      <div id="main">
+      <div id='main'>
         <Header />
+        <div id='content'>
+          <Tanks dispatcher={this.state.dispatcher}
+            tanks={this.state.reduction.getIn(['appState', 'tanks'])} />
+        </div>
       </div>
     );
   }

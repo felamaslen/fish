@@ -1,6 +1,7 @@
-// form actions
-export const FORM_NEXT_CLICKED = 'FORM_NEXT_CLICKED';
-export const FORM_RESPONSE_GOT = 'FORM_RESPONSE_GOT';
-export const FORM_INPUT_CHANGED = 'FORM_INPUT_CHANGED';
-export const FORM_RESET_CLICKED = 'FORM_RESET_CLICKED';
+/**
+ * Action constants
+ */
+
+export const TANKS_REQUESTED = 0xac11;
+export const TANKS_RECEIVED = 0xac12;
 
