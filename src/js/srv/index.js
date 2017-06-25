@@ -3,29 +3,29 @@
  * The actual express server is run from the gulpfile
  */
 
-import { Router as router } from 'express';
+import { MongoClient } from 'mongodb';
 import bodyParser from 'body-parser';
+import { Router } from 'express';
+import api from './api';
+import { MONGO_URL } from '../../../local';
 
 export default app => {
   // the front end route (/) is handled in the gulp file itself
+  let db;
+  MongoClient.connect(MONGO_URL, (err, database) => {
+    if (err) {
+      console.log('[FATAL]', err);
+      return;
+    }
+    db = database;
 
-  // api
-  const apiRouter = router();
-  // since we only have a single api endpoint (submit survey), it can be done here in
-  // a few lines - otherwise we'd have a separate api.js file and import this stuff
-  // from there
-  apiRouter.post('/submit_survey', (req, res) => {
-    // this doesn't really do anything - the instructions were to log the form details
-    // to the console and do nothing else.
-    console.log('Form submitted:', req.body);
-    // empty response
-    res.json({error: false, response: 'Form submitted.'});
+    // body parser is used to get POST/URL parameters
+    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.json());
+
+    const apiRouter = Router();
+    api(apiRouter, db);
+    app.use('/api', apiRouter);
   });
-
-  // body parser is used to get POST/URL parameters
-  app.use(bodyParser.urlencoded({extended: true}));
-  app.use(bodyParser.json());
-
-  app.use('/api', apiRouter);
 };
 

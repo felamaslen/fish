@@ -2,7 +2,10 @@
 
 ## This application is meant to remind me when to feed my fish, change water etc.
 
-### How to run:
+### Setup:
+* Rename `local.js.example` to `local.js` and modify with the correct values
+
+### Running:
 * `npm i` to install dependencies
 * `npm start` to run the web server
 * The app can then be accessed at `localhost:8080`

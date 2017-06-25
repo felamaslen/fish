@@ -8,7 +8,7 @@ import gutil from 'gutil';
 import path from 'path';
 import morgan from 'morgan';
 import express from 'express';
-import proxy from 'proxy-middleware';
+import proxy from 'http-proxy-middleware';
 import url from 'url';
 
 import webpackConfigDev from './webpack/webpack.development.config';
@@ -58,7 +58,7 @@ gulp.task('webpack', callback => {
 
 gulp.task('build', ['lint', 'less']);
 
-gulp.task('devServer', ['build', 'watch'], () => {
+gulp.task('devServerOnly', () => {
   env({
     vars: {
       DEVSERVER: true
@@ -71,7 +71,11 @@ gulp.task('devServer', ['build', 'watch'], () => {
   backend(app);
 
   // serve the mobile app as a proxied webpack dev server for hot reloading
-  app.use('/', proxy(url.parse('http://localhost:' + PORT_DEVSERVER + '/')));
+  const proxyFilter = (pathName, req) => !pathName.match(/^\/api/);
+  const devServerProxy = proxy(proxyFilter, {
+    target: url.parse('http://localhost:' + PORT_DEVSERVER + '/'),
+  });
+  app.use('/', devServerProxy);
 
   const frontend = new WebpackDevServer(webpack(webpackConfigDev), {
     contentBase: 'src/html',
@@ -82,15 +86,16 @@ gulp.task('devServer', ['build', 'watch'], () => {
   });
 
   frontend.listen(PORT_DEVSERVER, 'localhost', () => {});
-
   // morgan logs requests to the console
   app.use(morgan('dev'));
-
   app.listen(PORT_PROD);
+
   console.log('Server/client listening on ports', PORT_PROD, ',', PORT_DEVSERVER);
 });
 
-gulp.task('productionServer', ['build', 'webpack'], () => {
+gulp.task('devServer', ['build', 'watch', 'devServerOnly']);
+
+gulp.task('productionServerOnly', () => {
   const app = express();
 
   // serve the api
@@ -103,5 +108,7 @@ gulp.task('productionServer', ['build', 'webpack'], () => {
   console.log('Server listening on port', PORT_PROD);
 });
 
-gulp.task('default', ['devServer'], () => {});
+gulp.task('productionServer', ['build', 'webpack', 'productionServerOnly']);
+
+gulp.task('default', ['devServer']);
 
