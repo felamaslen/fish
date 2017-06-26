@@ -3,6 +3,7 @@
  */
 
 import apiListMethod from './apiListMethod';
+import apiLastMethod from './apiLastMethod';
 
 export default (router, db) => {
   // allow CORS requests
@@ -43,5 +44,14 @@ export default (router, db) => {
     props: propsWater,
     listParams: ['tankId']
   });
+
+  // last feed method
+  apiLastMethod(router, db, 'feed');
+
+  // last water change method
+  apiLastMethod(router, db, 'waterChange');
+
+  // last filter clean method
+  apiLastMethod(router, db, 'filterClean');
 };
 
