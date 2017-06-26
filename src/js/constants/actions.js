@@ -16,3 +16,6 @@ export const LIST_ITEM_DELETE_RECEIVED = 0xac16;
 
 export const TANK_ACTIVATED = 0xac91;
 
+export const LAST_DONE_UPDATED = 0xac71;
+export const LAST_DONE_UPDATE_RECEIVED = 0xac72;
+

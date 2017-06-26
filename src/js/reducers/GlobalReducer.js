@@ -13,7 +13,9 @@ import {
   LIST_ITEM_RECEIVED,
   LIST_ITEM_DELETE_REQUESTED, LIST_ITEM_DELETE_RECEIVED,
 
-  TANK_ACTIVATED
+  TANK_ACTIVATED,
+
+  LAST_DONE_UPDATED, LAST_DONE_UPDATE_RECEIVED
 } from '../constants/actions';
 
 import {
@@ -23,6 +25,9 @@ import {
   rRequestEditListItem, rReceiveListItem,
   rRequestDeleteListItem, rReceiveDeleteListItem
 } from './ListItemReducer';
+import {
+  rRequestLastItemUpdate, rUpdateLastDone
+} from './LastReducer';
 import {
   rActivateTank
 } from './TanksReducer';
@@ -52,6 +57,11 @@ export default (reduction, action) => {
 
   case TANK_ACTIVATED:
     return rActivateTank(reduction, action.payload);
+
+  case LAST_DONE_UPDATED:
+    return rRequestLastItemUpdate(reduction, action.payload);
+  case LAST_DONE_UPDATE_RECEIVED:
+    return rUpdateLastDone(reduction, action.payload);
 
   default:
     // By default, the reduction is simply returned unchanged.

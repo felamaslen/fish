@@ -34,7 +34,7 @@ export default (router, db, item) => {
         errorText = err.errmsg;
       }
 
-      res.json({ error, errorText });
+      res.json({ error, errorText, value });
     });
   });
 };

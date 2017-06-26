@@ -55,6 +55,11 @@ export default new Record({
           ), 'id']);
         }, name: null, inputProps: { type: 'hidden' }, noList: true }
       ]
+    },
+    last: {
+      feed: null,
+      waterChange: null,
+      filterClean: null
     }
   }),
   // side effects

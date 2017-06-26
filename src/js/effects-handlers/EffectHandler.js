@@ -7,12 +7,14 @@ import { API_URL } from '../../../local';
 import buildEffectHandler from '../effectHandlerBuilder';
 
 import {
-  EF_API_LIST_LIST_ITEMS, EF_API_EDIT_LIST_ITEM, EF_API_DELETE_LIST_ITEM
+  EF_API_LIST_LIST_ITEMS, EF_API_EDIT_LIST_ITEM, EF_API_DELETE_LIST_ITEM,
+  EF_API_GET_LAST, EF_API_UPDATE_LAST
 } from '../constants/effects';
 
 import {
   aListItemsReceived, aListItemReceived, aListItemDeleteReceived
 } from '../actions/ListItemActions';
+import { aLastDoneUpdateReceived } from '../actions/LastActions';
 
 export default buildEffectHandler([
   [EF_API_LIST_LIST_ITEMS, (req, dispatcher) => {
@@ -60,5 +62,20 @@ export default buildEffectHandler([
         }
       }
     );
+  }],
+
+  [EF_API_GET_LAST, (req, dispatcher) => {
+    axios.get(`${API_URL}api/last/${req.item}/${req.tankId}`).then(response => {
+      if (!response.data.error) {
+        dispatcher.dispatch(aLastDoneUpdateReceived(req.item, response.data.value));
+      }
+    });
+  }],
+  [EF_API_UPDATE_LAST, (req, dispatcher) => {
+    axios.post(`${API_URL}api/last/${req.item}/${req.tankId}/update`).then(response => {
+      if (!response.data.error) {
+        dispatcher.dispatch(aLastDoneUpdateReceived(req.item, response.data.value));
+      }
+    });
   }]
 ]);
