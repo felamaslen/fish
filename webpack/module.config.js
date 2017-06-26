@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   loaders: [
     {
       test: /\.jsx$|\.js$/,
@@ -13,3 +13,4 @@ module.exports = {
     { test: /\.less$/, loader: 'style!css!autoprefixer!less' }
   ]
 };
+

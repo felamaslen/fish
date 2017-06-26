@@ -1,8 +1,8 @@
-const path = require('path');
-const webpack = require('webpack');
-const moduleConfig = require('./module.config.js');
+import path from 'path';
+import webpack from 'webpack';
+import moduleConfig from './module.config';
 
-module.exports = {
+export default {
   devtool: 'source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:8081',
@@ -22,3 +22,4 @@ module.exports = {
   ],
   module: moduleConfig
 };
+

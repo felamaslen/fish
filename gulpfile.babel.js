@@ -84,7 +84,8 @@ gulp.task('devServerOnly', () => {
     publicPath: '/',
     hot: true,
     quiet: false,
-    noInfo: false
+    noInfo: false,
+    disableHostCheck: true
   });
 
   frontend.listen(PORT_DEVSERVER, 'localhost', () => {});

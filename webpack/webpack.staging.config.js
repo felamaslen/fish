@@ -1,8 +1,8 @@
-const path = require('path');
-const webpack = require('webpack');
-const moduleConfig = require('./module.config.js');
+import path from 'path';
+import webpack from 'webpack';
+import moduleConfig from './module.config';
 
-module.exports = {
+export default {
   devtool: 'cheap-module-source-map',
   entry: [
     './src/js/index.jsx'
@@ -24,3 +24,4 @@ module.exports = {
     extensions: ['.js', '.jsx']
   }
 };
+
